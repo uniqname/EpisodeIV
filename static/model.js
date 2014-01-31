@@ -38,10 +38,12 @@ function EpisodeIV(db) {
         numChapters = BOOK_DATA[book]["chapters"].length,
         retArray = [];
     for(var i = 0; i < numChapters; i++) {
-        retArray[i] = i + 1;
+        retArray[i] = book + "/" + (i + 1);
     }
       // data = BOOK_DATA[book]["chapters"].length;
-      dfd.resolveWith({chapters: retArray});
+      dfd.resolveWith({
+        book: book,
+        chapters: retArray});
       return dfd;
   };
 
