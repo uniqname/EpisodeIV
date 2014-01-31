@@ -26,7 +26,12 @@ function EpisodeIV(db) {
   };
 
   self.getChapterForBook = function(book) {
-      return BOOK_DATA[book]["chapters"].length
+      var numChapters = BOOK_DATA[book]["chapters"].length;
+      var retArray = new Array();
+      for(var i = 0; i < numChapters; i++) {
+          retArray[i] = i + 1;
+      }
+      return retArray;
   };
 
   self.settings.set = function(setting, value) {

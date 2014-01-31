@@ -9,7 +9,7 @@
     <script type="text/handlebars" id="books">
     <ol>
 		{{#each books}}
-		<li>{{this}}</li>
+		<li><a href="#{{this}}">{{this}}</a></li>
 		{{/each}}
 	</ol>
     </script>
@@ -17,7 +17,7 @@
     <script type="text/handlebars" id="chapters">
     <ol>
 		{{#each chapters}}
-		<li>{{this}}</li>
+		<li><a href="#{{this}}">{{this}}</a></li>
 		{{/each}}
 	</ol>
     </script>
