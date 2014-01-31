@@ -44,8 +44,8 @@
         data = episodeIV.getBooks('bible');
         templ = tempalates.book;
       }
-      data.done(function (data) {
-        episodeIV.renderInto(templ(data.data))
+      data.done(function () {
+        episodeIV.renderInto(templ(this))
       });
     });
 
