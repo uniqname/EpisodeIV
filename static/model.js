@@ -15,7 +15,13 @@ function EpisodeIV(db) {
       url: "http://labs.bible.org/api/?passage=" + book + "+" + chapter +"&type=json",
       dataType: 'jsonp'
     }).done(function (data) {
-      dfd.resolveWith({text: data});
+      dfd.resolveWith({
+        scripture: {
+          book: book,
+          chapter: chapter,
+          text: data
+        }
+      });
     });
     return dfd;
   };
