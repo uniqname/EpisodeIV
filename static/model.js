@@ -3,48 +3,56 @@
 
 function EpisodeIV(db) {
 
-  db = db || DB("EpisodeIV-riot");
+  db = db || DB("EpisodeIV-settings");
 
-  var self = $.observable(this),
-    items = db.get();
+  var self = $.observable(this);
 
-  self.add = function(name) {
-    var item = { id: "_" + ("" + Math.random()).slice(2), name: name }
-    items[item.id] = item;
-    self.trigger("add", item);
-  }
+  self.settings = db.get();
 
-  self.edit = function(item) {
-    items[item.id] = item;
+  self.getScripture = function(reference) {
+    return $.ajax({
+      url: '' + reference.book + '/' + reference.chapter + (reference.verse ? reference.verse : '') + '/';
+    }).done(function (data) {
+      return data;
+    });
+  };
+
+  self.settings.set = function(setting, value) {
+    settings[setting] = value;
     self.trigger("edit", item);
-  }
+  };
 
-  self.remove = function(filter) {
-    var els = self.items(filter);
-    $.each(els, function() {
-      delete items[this.id]
-    })
-    self.trigger("remove", els);
-  }
+  self.settings.get = function(setting) {
+    settings[setting] = value;
+    self.trigger("edit", item);
+  };
 
-  self.toggle = function(id) {
-    var item = items[id];
-    item.done = !item.done;
-    self.trigger("toggle", item);
-  }
+  // self.remove = function(filter) {
+  //   var els = self.settings(filter);
+  //   $.each(els, function() {
+  //     delete settings[this.id]
+  //   })
+  //   self.trigger("remove", els);
+  // }
+
+  // self.toggle = function(id) {
+  //   var item = settings[id];
+  //   item.done = !item.done;
+  //   self.trigger("toggle", item);
+  // }
 
   // @param filter: <empty>, id, "active", "completed"
-  self.items = function(filter) {
-    var ret = [];
-    $.each(items, function(id, item) {
-      if (!filter || filter == id || filter == (item.done ? "completed" : "active")) ret.push(item)
-    })
-    return ret;
-  }
+  // self.settings = function(filter) {
+  //   var ret = [];
+  //   $.each(settings, function(id, item) {
+  //     if (!filter || filter == id || filter == (item.done ? "completed" : "active")) ret.push(item)
+  //   })
+  //   return ret;
+  // }
 
   // sync database
-  self.on("add remove toggle edit", function() {
-    db.put(items);
+  self.on("settingsChange edit", function() {
+    db.put(settings);
   })
 
 }
