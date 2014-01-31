@@ -10,12 +10,20 @@ function EpisodeIV(db) {
   self.settings = db.get();
 
   self.getText = function(book, chapter) {
-    return $.ajax({
-      // url: '' + reference.book + '/' + reference.chapter + (reference.verse ? reference.verse : '') + '/';
-      url: "http://labs.bible.org/api/?passage=" + book + "+" + chapter +"&type=json"
+    var dfd = new $.Deferred();
+    $.ajax({
+      url: "http://labs.bible.org/api/?passage=" + book + "+" + chapter +"&type=json",
+      dataType: 'jsonp'
     }).done(function (data) {
-      return data;
+      dfd.resolveWith({
+        scripture: {
+          book: book,
+          chapter: chapter,
+          text: data
+        }
+      });
     });
+    return dfd;
   };
 
   self.getBooks = function() {
@@ -26,12 +34,15 @@ function EpisodeIV(db) {
   };
 
   self.getChapterForBook = function(book) {
-      var numChapters = BOOK_DATA[book]["chapters"].length;
-      var retArray = new Array();
-      for(var i = 0; i < numChapters; i++) {
-          retArray[i] = i + 1;
-      }
-      return retArray;
+    var dfd = new $.Deferred(),
+        numChapters = BOOK_DATA[book]["chapters"].length,
+        retArray = [];
+    for(var i = 0; i < numChapters; i++) {
+        retArray[i] = i + 1;
+    }
+      // data = BOOK_DATA[book]["chapters"].length;
+      dfd.resolveWith({chapters: retArray});
+      return dfd;
   };
 
   self.settings.set = function(setting, value) {
