@@ -1,21 +1,26 @@
+* {
+	box-sizing: border-box;
+}
 #wrap{
-	width: 900px;
+	width: 100%;
 	margin: 0 auto;
 }
 .tiles{
 	list-style: none;
+	overflow: hidden;
+	float:left;
+	width: calc(33% - 2em);
+	height: 75px;
+	margin: 1em;
 }
-.tiles a{
+.tiles a {
 	text-decoration: none;
 	color: #fff;
-	width: 200px;
-	height: 75px;
-	float:left;
-	
 	background-color: #555;
-	margin: 5px;
 	text-align: center;
 	line-height: 80px;
 	font-size: 20px;
 	border-radius: 5px;
+	width: 100%;
+	margin: 0;
 }
