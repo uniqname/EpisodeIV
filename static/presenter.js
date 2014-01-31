@@ -11,11 +11,43 @@
   window.episodeIV = new EpisodeIV();
 
   // HTML for a single todo item
-  var template = $("[type='html/todo']").html(),
+  var tempalates = {
+      book: Handlebars.compile($("#books").html()),
+      chapter: Handlebars.compile($("#chapters").html()),
+      reader: Handlebars.compile($("#reader").html())
+    },
     root = $("#todo-list"),
     nav = $("#filters a");
 
+  episodeIV.renderInto = function (html, container) {
+    if (!container) {
+      container = "main";
+    }
+    $(container).html(html);
+  }
 
+
+    $.route(function (hash) {
+      hash = hash.split('/');
+
+      var book = hash[0],
+          chapter = hash[1],
+          data,
+          templ;
+      if (chapter) {
+        data = episodeIV.getText(book, chapter);
+        templ = tempalates.reader;
+      } else if (book) {
+        data = episodeIV.getChapters(book);
+        templ = tempalates.chapter;
+      } else {
+        data = episodeIV.getBooks('bible');
+        templ = tempalates.book;
+      }
+      data.done(function (data) {
+        episodeIV.renderInto(templ(data.data))
+      });
+    });
 
   /* Listen to user events */
 
@@ -45,9 +77,7 @@
   episodeIV.on("settingsChange", function (settingName, newValue) {
     episodeIV.settings[settingName] = newValue;
     episodeIV.db.put(settings);
-  });
-
-  .on("remove", function(items) {
+  }).on("remove", function(items) {
     $.each(items, function() {
       $("#" + this.id).remove()
     })
@@ -74,13 +104,13 @@
   $.route(function(hash) {
 
     // clear list and add new ones
-    root.empty() && $.each(todo.items(hash.slice(2)), add)
+    // root.empty() && $.each(episodeIV.settings(hash.slice(2)), add)
 
     // selected class
-    nav.removeClass("selected").filter("[href='" + hash + "']").addClass("selected");
+    // nav.removeClass("selected").filter("[href='" + hash + "']").addClass("selected");
 
     // update counts
-    counts()
+    // counts()
   })
 
 
