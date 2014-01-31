@@ -42,7 +42,12 @@
 
   /* Listen to model events */
 
-  todo.on("add", add).on("remove", function(items) {
+  episodeIV.on("settingsChange", function (settingName, newValue) {
+    episodeIV.settings[settingName] = newValue;
+    episodeIV.db.put(settings);
+  });
+
+  .on("remove", function(items) {
     $.each(items, function() {
       $("#" + this.id).remove()
     })
@@ -86,6 +91,10 @@
     el.toggleClass("completed", flag);
     $(":checkbox", el).prop("checked", flag);
   }
+
+  function settingsChange(setting) {
+
+  };
 
   function add(item) {
     if (this.id) item = this;
