@@ -22,7 +22,17 @@
 	</ol>
     </script>
     <script type="text/handlebars" id="reader">
+        <p id="start">A long time go in a land far, far away&hellip;</p>
 
+        <h1>{{book}} <br />
+        Episode{{chapter}}</h1>
+
+        <div id="titles"><div id="titlecontent">
+            {{#each }}
+            <p>{{text}}</p>
+            {{/each }}
+
+        </div></div>
     </script>
     <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
     <script src="static/bower_components/handlebars/handlebars.min.js"></script>

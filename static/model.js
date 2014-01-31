@@ -10,12 +10,14 @@ function EpisodeIV(db) {
   self.settings = db.get();
 
   self.getText = function(book, chapter) {
-    return $.ajax({
-      // url: '' + reference.book + '/' + reference.chapter + (reference.verse ? reference.verse : '') + '/';
-      url: "http://labs.bible.org/api/?passage=" + book + "+" + chapter +"&type=json"
+    var dfd = new $.Deferred();
+    $.ajax({
+      url: "http://labs.bible.org/api/?passage=" + book + "+" + chapter +"&type=json",
+      dataType: 'jsonp'
     }).done(function (data) {
-      return data;
+      dfd.resolveWith({text: data});
     });
+    return dfd;
   };
 
   self.getBooks = function() {
@@ -26,7 +28,10 @@ function EpisodeIV(db) {
   };
 
   self.getChapterForBook = function(book) {
-      return BOOK_DATA[book]["chapters"].length
+    var dfd = new $.Deferred();
+      data = BOOK_DATA[book]["chapters"].length;
+      dfd.resolveWith({chapters: data});
+      return dfd;
   };
 
   self.settings.set = function(setting, value) {

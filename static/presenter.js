@@ -28,7 +28,7 @@
 
 
     $.route(function (hash) {
-      hash = hash.split('/');
+      hash = hash.replace('#', '').split('/');
 
       var book = hash[0],
           chapter = hash[1],
@@ -38,7 +38,7 @@
         data = episodeIV.getText(book, chapter);
         templ = tempalates.reader;
       } else if (book) {
-        data = episodeIV.getChapters(book);
+        data = episodeIV.getChapterForBook(book);
         templ = tempalates.chapter;
       } else {
         data = episodeIV.getBooks('bible');
