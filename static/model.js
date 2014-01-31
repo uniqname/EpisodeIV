@@ -27,29 +27,6 @@ function EpisodeIV(db) {
     self.trigger("edit", item);
   };
 
-  // self.remove = function(filter) {
-  //   var els = self.settings(filter);
-  //   $.each(els, function() {
-  //     delete settings[this.id]
-  //   })
-  //   self.trigger("remove", els);
-  // }
-
-  // self.toggle = function(id) {
-  //   var item = settings[id];
-  //   item.done = !item.done;
-  //   self.trigger("toggle", item);
-  // }
-
-  // @param filter: <empty>, id, "active", "completed"
-  // self.settings = function(filter) {
-  //   var ret = [];
-  //   $.each(settings, function(id, item) {
-  //     if (!filter || filter == id || filter == (item.done ? "completed" : "active")) ret.push(item)
-  //   })
-  //   return ret;
-  // }
-
   // sync database
   self.on("settingsChange edit", function() {
     db.put(settings);
