@@ -11,11 +11,41 @@
   window.episodeIV = new EpisodeIV();
 
   // HTML for a single todo item
-  var template = $("[type='html/todo']").html(),
+  var tempalates = {
+      book: Handlebars.compile($("#books").html()),
+      chapter: Handlebars.compile($("#chapters").html()),
+      reader: Handlebars.compile($("#reader").html())
+    },
     root = $("#todo-list"),
     nav = $("#filters a");
 
+  episodeIV.renderInto(html, container) {
+    if (!container) {
+      container = "main";
+    }
+    $(container).html(html);
+  }
 
+
+    $.route(function (hash) {
+      hash = hash.split('/');
+
+      var book = hash[1],
+          chapter = hash[2],
+          data,
+          templ;
+      if (chapter) {
+        data = episodeIV.getText(book, chapter);
+        templ = tempalates.reader;
+      } else if (book) {
+        data = episodeIV.getChapters(book);
+        templ = tempalates.chapter;
+      } else {
+        data = episodeIV.getBooks('bible');
+        templ = tempalates.book;
+      }
+      $('')templ(data);
+    });
 
   /* Listen to user events */
 
