@@ -9,10 +9,10 @@ function EpisodeIV(db) {
 
   self.settings = db.get();
 
-  self.getText = function(reference) {
+  self.getText = function(book, chapter) {
     return $.ajax({
       // url: '' + reference.book + '/' + reference.chapter + (reference.verse ? reference.verse : '') + '/';
-      url: "http://labs.bible.org/api/?passage=John%203&type=json"
+      url: "http://labs.bible.org/api/?passage=" + book + "+" + chapter +"&type=json"
     }).done(function (data) {
       return data;
     });
