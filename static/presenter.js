@@ -19,7 +19,7 @@
     root = $("#todo-list"),
     nav = $("#filters a");
 
-  episodeIV.renderInto(html, container) {
+  episodeIV.renderInto = function (html, container) {
     if (!container) {
       container = "main";
     }
@@ -30,8 +30,8 @@
     $.route(function (hash) {
       hash = hash.split('/');
 
-      var book = hash[1],
-          chapter = hash[2],
+      var book = hash[0],
+          chapter = hash[1],
           data,
           templ;
       if (chapter) {
@@ -44,7 +44,9 @@
         data = episodeIV.getBooks('bible');
         templ = tempalates.book;
       }
-      $('')templ(data);
+      data.done(function (data) {
+        episodeIV.renderInto(templ(data.data))
+      });
     });
 
   /* Listen to user events */
@@ -75,9 +77,7 @@
   episodeIV.on("settingsChange", function (settingName, newValue) {
     episodeIV.settings[settingName] = newValue;
     episodeIV.db.put(settings);
-  });
-
-  .on("remove", function(items) {
+  }).on("remove", function(items) {
     $.each(items, function() {
       $("#" + this.id).remove()
     })
@@ -104,13 +104,13 @@
   $.route(function(hash) {
 
     // clear list and add new ones
-    root.empty() && $.each(todo.items(hash.slice(2)), add)
+    // root.empty() && $.each(episodeIV.settings(hash.slice(2)), add)
 
     // selected class
-    nav.removeClass("selected").filter("[href='" + hash + "']").addClass("selected");
+    // nav.removeClass("selected").filter("[href='" + hash + "']").addClass("selected");
 
     // update counts
-    counts()
+    // counts()
   })
 
 
