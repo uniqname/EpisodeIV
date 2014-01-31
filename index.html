@@ -220,14 +220,16 @@
         }
     </style>
 
+    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
     </head>
     <body>
     	<main></main>
 
     <script type="text/handlebars" id="books">
+    <div id="wrap">
     <ol>
 		{{#each books}}
-		<li><a href="#{{this}}">{{this}}</a></li>
+		<li class="tiles"><a href="#{{this}}">{{this}}</a></li>
 		{{/each}}
 	</ol>
     </script>
@@ -238,6 +240,7 @@
 		<li><a href="#{{this}}">{{this}}</a></li>
 		{{/each}}
 	</ol>
+    </div>
     </script>
     <script type="text/handlebars" id="reader">
         <p id="start">A long time go in a land far, far away&hellip;</p>

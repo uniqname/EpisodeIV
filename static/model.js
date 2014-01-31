@@ -34,9 +34,14 @@ function EpisodeIV(db) {
   };
 
   self.getChapterForBook = function(book) {
-    var dfd = new $.Deferred();
-      data = BOOK_DATA[book]["chapters"].length;
-      dfd.resolveWith({chapters: data});
+    var dfd = new $.Deferred(),
+        numChapters = BOOK_DATA[book]["chapters"].length,
+        retArray = [];
+    for(var i = 0; i < numChapters; i++) {
+        retArray[i] = i + 1;
+    }
+      // data = BOOK_DATA[book]["chapters"].length;
+      dfd.resolveWith({chapters: retArray});
       return dfd;
   };
 
